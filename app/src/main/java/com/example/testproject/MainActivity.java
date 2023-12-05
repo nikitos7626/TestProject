@@ -1,34 +1,23 @@
 package com.example.testproject;
 
-import android.app.ListActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
+import android.widget.MultiAutoCompleteTextView;
 
-public class MainActivity extends ListActivity {
+public class MainActivity extends AppCompatActivity {
 
-    String[] countries = { "Бразилия", "Аргентина", "Колумбия", "Чили", "Уругвай"};
-
+    String[] cities = {"Москва", "Самара", "Вологда", "Волгоград", "Саратов", "Воронеж"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // создаем адаптер
-        ArrayAdapter<String> adapter = new ArrayAdapter(this,
-                android.R.layout.simple_list_item_1, countries);
-        setListAdapter(adapter);
-
-        AdapterView.OnItemClickListener itemListener = new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-
-                Toast.makeText(getApplicationContext(), "Был выбран пункт " +
-                        parent.getItemAtPosition(position).toString(),  Toast.LENGTH_SHORT).show();
-            }
-        };
-        getListView().setOnItemClickListener(itemListener);
+        // Получаем ссылку на элемент AutoCompleteTextView в разметке
+        MultiAutoCompleteTextView autoCompleteTextView = findViewById(R.id.autocomplete);
+        // Создаем адаптер для автозаполнения элемента MultiAutoCompleteTextView
+        ArrayAdapter<String> adapter = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, cities);
+        autoCompleteTextView.setAdapter(adapter);
+        // установка запятой в качестве разделителя
+        autoCompleteTextView.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
     }
 }
